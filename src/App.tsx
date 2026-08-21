@@ -9,12 +9,14 @@ import { LandingShowcase } from './components/LandingShowcase';
 import { FramerStudio } from './components/FramerStudio';
 import { CodeViewer } from './components/CodeViewer';
 import { DownloadModal } from './components/DownloadModal';
+import { GitHubPublishModal } from './components/GitHubPublishModal';
 import { APP_RELEASES } from './data/presets';
-import { Layers } from 'lucide-react';
+import { Layers, Github } from 'lucide-react';
 
 export default function App() {
   const [activeView, setActiveView] = useState<ActiveView>('showcase');
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState<boolean>(false);
+  const [isGitHubModalOpen, setIsGitHubModalOpen] = useState<boolean>(false);
 
   return (
     <div className="min-h-screen bg-[#090a0f] text-neutral-100 flex flex-col selection:bg-[#272d3d] selection:text-white font-sans">
@@ -23,6 +25,7 @@ export default function App() {
         activeView={activeView}
         onNavigate={setActiveView}
         onOpenDownloadModal={() => setIsDownloadModalOpen(true)}
+        onOpenGitHubModal={() => setIsGitHubModalOpen(true)}
       />
 
       {/* Main View Router */}
@@ -32,6 +35,7 @@ export default function App() {
             onOpenStudio={() => setActiveView('studio')}
             onOpenDownloadModal={() => setIsDownloadModalOpen(true)}
             onOpenCodeViewer={() => setActiveView('code')}
+            onOpenGitHubModal={() => setIsGitHubModalOpen(true)}
           />
         )}
 
@@ -78,10 +82,17 @@ export default function App() {
               Compose Architecture
             </button>
             <button 
+              onClick={() => setIsGitHubModalOpen(true)} 
+              className="hover:text-white flex items-center gap-1 transition-colors cursor-pointer text-emerald-400"
+            >
+              <Github className="w-3.5 h-3.5" />
+              <span>GitHub Deploy</span>
+            </button>
+            <button 
               onClick={() => setIsDownloadModalOpen(true)} 
               className="text-neutral-200 hover:text-white font-mono transition-colors cursor-pointer"
             >
-              APK v{APP_RELEASES[0].version}
+              APK {APP_RELEASES[0].version}
             </button>
           </div>
 
@@ -95,6 +106,12 @@ export default function App() {
       <DownloadModal
         isOpen={isDownloadModalOpen}
         onClose={() => setIsDownloadModalOpen(false)}
+      />
+
+      {/* GitHub Pages & APK Hosting Hub Modal */}
+      <GitHubPublishModal
+        isOpen={isGitHubModalOpen}
+        onClose={() => setIsGitHubModalOpen(false)}
       />
     </div>
   );

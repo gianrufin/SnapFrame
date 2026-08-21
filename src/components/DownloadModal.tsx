@@ -9,34 +9,58 @@ import {
   Check, 
   FileCode,
   Terminal,
-  CheckCircle2
+  CheckCircle2,
+  Github,
+  Globe,
+  ExternalLink
 } from 'lucide-react';
 
 interface DownloadModalProps {
   isOpen: boolean;
   onClose: () => void;
+  githubUser?: string;
+  githubRepo?: string;
 }
 
-export const DownloadModal: React.FC<DownloadModalProps> = ({ isOpen, onClose }) => {
+export const DownloadModal: React.FC<DownloadModalProps> = ({ 
+  isOpen, 
+  onClose,
+  githubUser = 'gianrufin',
+  githubRepo = 'snapframe'
+}) => {
   const [copiedSha, setCopiedSha] = useState(false);
   const [downloadStarted, setDownloadStarted] = useState(false);
+  const [downloadSource, setDownloadSource] = useState<'bundled' | 'github-releases' | 'github-raw'>('github-releases');
   const release = APP_RELEASES[0];
+
+  const githubReleaseApkUrl = `https://github.com/${githubUser}/${githubRepo}/releases/download/${release.version}/SnapFrame-${release.version}-arm64-v8a.apk`;
+  const githubRawApkUrl = `https://raw.githubusercontent.com/${githubUser}/${githubRepo}/main/public/releases/SnapFrame-${release.version}-arm64-v8a.apk`;
 
   if (!isOpen) return null;
 
   const handleDownload = () => {
     setDownloadStarted(true);
 
-    const dummyApkContent = `SnapFrame Android APK Release ${release.version}\nSHA-256: ${release.sha256}\nTarget SDK: ${release.targetSdk}\nBuilt with Kotlin 2.0 & Jetpack Compose 1.7.`;
-    const blob = new Blob([dummyApkContent], { type: 'application/vnd.android.package-archive' });
-    const url = URL.createObjectURL(blob);
+    if (downloadSource === 'github-releases') {
+      window.open(githubReleaseApkUrl, '_blank');
+      setTimeout(() => setDownloadStarted(false), 2000);
+      return;
+    }
+
+    if (downloadSource === 'github-raw') {
+      window.open(githubRawApkUrl, '_blank');
+      setTimeout(() => setDownloadStarted(false), 2000);
+      return;
+    }
+
+    // Bundled fallback download
     const link = document.createElement('a');
-    link.href = url;
+    link.href = './releases/SnapFrame-v1.4.2-arm64-v8a.apk';
     link.download = `SnapFrame-${release.version}-arm64-v8a.apk`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    setTimeout(() => setDownloadStarted(false), 2000);
   };
 
   const handleCopySha = () => {
@@ -75,6 +99,39 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({ isOpen, onClose })
               Production build for Samsung Galaxy S27 Ultra & modern Android devices
             </p>
           </div>
+        </div>
+
+        {/* Download Source Selection */}
+        <div className="p-1 rounded-lg bg-[#141720] border border-[#1e222d] flex items-center text-xs">
+          <button
+            onClick={() => setDownloadSource('github-releases')}
+            className={`flex-1 py-1.5 px-2 rounded-md font-mono text-[11px] font-medium transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${
+              downloadSource === 'github-releases' ? 'bg-[#222733] text-white shadow-2xs' : 'text-neutral-400 hover:text-neutral-200'
+            }`}
+          >
+            <Github className="w-3.5 h-3.5" />
+            <span>GitHub Release</span>
+          </button>
+
+          <button
+            onClick={() => setDownloadSource('github-raw')}
+            className={`flex-1 py-1.5 px-2 rounded-md font-mono text-[11px] font-medium transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${
+              downloadSource === 'github-raw' ? 'bg-[#222733] text-white shadow-2xs' : 'text-neutral-400 hover:text-neutral-200'
+            }`}
+          >
+            <FileCode className="w-3.5 h-3.5" />
+            <span>GitHub Raw File</span>
+          </button>
+
+          <button
+            onClick={() => setDownloadSource('bundled')}
+            className={`flex-1 py-1.5 px-2 rounded-md font-mono text-[11px] font-medium transition-colors cursor-pointer flex items-center justify-center gap-1.5 ${
+              downloadSource === 'bundled' ? 'bg-[#222733] text-white shadow-2xs' : 'text-neutral-400 hover:text-neutral-200'
+            }`}
+          >
+            <Globe className="w-3.5 h-3.5" />
+            <span>Static Host</span>
+          </button>
         </div>
 
         {/* Binary Distribution Card */}
@@ -125,7 +182,7 @@ export const DownloadModal: React.FC<DownloadModalProps> = ({ isOpen, onClose })
             <div>
               <span className="text-xs font-semibold text-neutral-200 block">Camera QR Installer</span>
               <span className="text-[11px] text-neutral-400 block mt-0.5">
-                Scan with your Galaxy or Android device camera to download directly.
+                Scan with your Galaxy or Android device camera to download directly from GitHub.
               </span>
             </div>
           </div>

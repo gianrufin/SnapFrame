@@ -5,7 +5,9 @@ import {
   Download, 
   Layers,
   Wrench,
-  Sparkles
+  Sparkles,
+  Github,
+  Globe
 } from 'lucide-react';
 import { APP_RELEASES } from '../data/presets';
 
@@ -15,18 +17,20 @@ interface HeaderProps {
   activeView: ActiveView;
   onNavigate: (view: ActiveView) => void;
   onOpenDownloadModal: () => void;
+  onOpenGitHubModal: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   activeView,
   onNavigate,
   onOpenDownloadModal,
+  onOpenGitHubModal,
 }) => {
   const latestRelease = APP_RELEASES[0];
 
   return (
     <header className="w-full bg-[#090a0f]/95 backdrop-blur-md border-b border-[#1c1f26] sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
         {/* Left: Brand Identity */}
         <div 
           onClick={() => onNavigate('studio')}
@@ -40,7 +44,7 @@ export const Header: React.FC<HeaderProps> = ({
               SnapFrame
             </span>
             <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-[#181a22] text-neutral-400 border border-[#272b36]">
-              Studio v1.4
+              v1.4.2
             </span>
           </div>
         </div>
@@ -85,14 +89,24 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
 
         {/* Right: Technical Actions & Download */}
-        <div className="flex items-center space-x-2.5">
+        <div className="flex items-center space-x-2">
+          {/* GitHub Pages & APK Hosting Hub button */}
+          <button
+            onClick={onOpenGitHubModal}
+            className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-md bg-[#13161f] hover:bg-[#1c202c] border border-[#242938] text-neutral-300 hover:text-white text-xs font-medium transition-all cursor-pointer"
+            title="GitHub Pages & APK Hosting Hub"
+          >
+            <Github className="w-3.5 h-3.5 text-neutral-300" />
+            <span className="hidden sm:inline">GitHub Pages & APK</span>
+          </button>
+
           <button
             onClick={onOpenDownloadModal}
-            className="flex items-center space-x-2 px-3 py-1.5 rounded-md bg-[#1d222e] hover:bg-[#272d3d] border border-[#2e3648] text-neutral-100 text-xs font-medium transition-all active:scale-[0.98] cursor-pointer"
+            className="flex items-center space-x-2 px-3 py-1.5 rounded-md bg-white hover:bg-neutral-200 text-black text-xs font-semibold transition-all active:scale-[0.98] cursor-pointer"
           >
-            <Download className="w-3.5 h-3.5 text-neutral-300" />
-            <span>Get Android APK</span>
-            <span className="text-[10px] font-mono text-neutral-400">{latestRelease.version}</span>
+            <Download className="w-3.5 h-3.5" />
+            <span>Get APK</span>
+            <span className="text-[10px] font-mono opacity-75">{latestRelease.version}</span>
           </button>
         </div>
       </div>
@@ -101,7 +115,7 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="md:hidden flex items-center justify-around px-2 py-1.5 border-t border-[#1c1f26] bg-[#0c0e14] text-xs">
         <button
           onClick={() => onNavigate('studio')}
-          className={`flex items-center space-x-1 px-3 py-1 rounded-md ${
+          className={`flex items-center space-x-1 px-2.5 py-1 rounded-md ${
             activeView === 'studio' ? 'text-white font-medium bg-[#1c202a]' : 'text-neutral-400'
           }`}
         >
@@ -111,7 +125,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         <button
           onClick={() => onNavigate('showcase')}
-          className={`flex items-center space-x-1 px-3 py-1 rounded-md ${
+          className={`flex items-center space-x-1 px-2.5 py-1 rounded-md ${
             activeView === 'showcase' ? 'text-white font-medium bg-[#1c202a]' : 'text-neutral-400'
           }`}
         >
@@ -121,12 +135,20 @@ export const Header: React.FC<HeaderProps> = ({
 
         <button
           onClick={() => onNavigate('code')}
-          className={`flex items-center space-x-1 px-3 py-1 rounded-md ${
+          className={`flex items-center space-x-1 px-2.5 py-1 rounded-md ${
             activeView === 'code' ? 'text-white font-medium bg-[#1c202a]' : 'text-neutral-400'
           }`}
         >
           <Code2 className="w-3.5 h-3.5" />
           <span>Code</span>
+        </button>
+
+        <button
+          onClick={onOpenGitHubModal}
+          className="flex items-center space-x-1 px-2.5 py-1 rounded-md text-emerald-400 bg-emerald-500/10 border border-emerald-500/20"
+        >
+          <Github className="w-3.5 h-3.5" />
+          <span>Deploy</span>
         </button>
       </div>
     </header>

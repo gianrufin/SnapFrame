@@ -16,19 +16,24 @@ import {
   CheckCircle2,
   Terminal,
   Share2,
-  Maximize2
+  Maximize2,
+  Github,
+  Globe,
+  ExternalLink
 } from 'lucide-react';
 
 interface LandingShowcaseProps {
   onOpenStudio: () => void;
   onOpenDownloadModal: () => void;
   onOpenCodeViewer: () => void;
+  onOpenGitHubModal: () => void;
 }
 
 export const LandingShowcase: React.FC<LandingShowcaseProps> = ({
   onOpenStudio,
   onOpenDownloadModal,
   onOpenCodeViewer,
+  onOpenGitHubModal,
 }) => {
   const latestRelease = APP_RELEASES[0];
   const [heroColorIndex, setHeroColorIndex] = useState<number>(0);
@@ -79,6 +84,14 @@ export const LandingShowcase: React.FC<LandingShowcaseProps> = ({
               >
                 <Download className="w-3.5 h-3.5 text-neutral-400" />
                 <span>Download APK ({latestRelease.size})</span>
+              </button>
+
+              <button
+                onClick={onOpenGitHubModal}
+                className="flex items-center space-x-2 px-3.5 py-2.5 rounded-lg bg-[#12141c] hover:bg-[#1a1d28] text-neutral-300 hover:text-white border border-[#242838] text-xs font-medium transition-colors cursor-pointer"
+              >
+                <Github className="w-3.5 h-3.5 text-emerald-400" />
+                <span>GitHub Pages & APK Hub</span>
               </button>
 
               <button
@@ -298,6 +311,42 @@ export const LandingShowcase: React.FC<LandingShowcaseProps> = ({
     </intent-filter>
 </activity>`}</code>
             </pre>
+          </div>
+        </div>
+      </section>
+
+      {/* GITHUB PAGES & APK DISTRIBUTION HIGHLIGHT */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="p-6 sm:p-8 rounded-2xl bg-[#090b10] border border-[#1e222d] flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-2">
+            <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-mono text-emerald-400">
+              <Github className="w-3 h-3" />
+              <span>GitHub Pages & Releases Automated</span>
+            </div>
+            <h3 className="text-xl font-bold text-white">
+              Host the landing page & APK directly on GitHub
+            </h3>
+            <p className="text-xs text-neutral-400 max-w-xl leading-relaxed">
+              Equipped with ready-to-deploy <code className="text-neutral-200">.github/workflows/deploy-pages.yml</code>, static relative asset paths, and GitHub Releases APK distribution pipelines.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <button
+              onClick={onOpenGitHubModal}
+              className="flex items-center space-x-2 px-4 py-2.5 rounded-lg bg-[#181a24] hover:bg-[#20232e] border border-[#2c3040] text-white text-xs font-semibold transition-all cursor-pointer"
+            >
+              <Github className="w-4 h-4 text-white" />
+              <span>View GitHub Publish Guide</span>
+            </button>
+
+            <button
+              onClick={onOpenDownloadModal}
+              className="flex items-center space-x-2 px-4 py-2.5 rounded-lg bg-white hover:bg-neutral-200 text-black text-xs font-semibold transition-all active:scale-[0.98] cursor-pointer"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Get APK ({latestRelease.version})</span>
+            </button>
           </div>
         </div>
       </section>

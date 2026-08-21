@@ -1,6 +1,6 @@
 {
   "name": "SnapFrame - Screenshot Framer & Android App Showcase",
-  "description": "Create precision framed screenshots with MacBook window decorations, Samsung Galaxy S27 Ultra mockups, automatic dimension scaling, 16:9 landscape story presets, 9:16 vertical reels, custom gradients, and APK binary distribution.",
+  "description": "Create precision framed screenshots with MacBook window decorations, Samsung Galaxy S27 Ultra mockups, automatic dimension scaling, 16:9 story presets, custom gradients, GitHub Pages deployment workflow, and GitHub APK distribution.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

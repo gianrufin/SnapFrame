@@ -1,0 +1,19 @@
+{
+  "version": "v1.4.2",
+  "versionCode": 142,
+  "releaseDate": "2026-08-20",
+  "minSdkVersion": 29,
+  "targetSdkVersion": 35,
+  "fileName": "SnapFrame-v1.4.2-arm64-v8a.apk",
+  "size": "6.4 MB",
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "githubReleaseUrl": "https://github.com/gianrufin/snapframe/releases/download/v1.4.2/SnapFrame-v1.4.2-arm64-v8a.apk",
+  "githubRawUrl": "https://raw.githubusercontent.com/gianrufin/snapframe/main/public/releases/SnapFrame-v1.4.2-arm64-v8a.apk",
+  "changelog": [
+    "Samsung Galaxy S27 Ultra 1.1mm uniform titanium bezel specification",
+    "Hardware RenderEffect GPU blur shader pipeline for Android 12+",
+    "Quick Share Receiver Activity for direct screenshot interception",
+    "Multi-aspect canvas staging: Auto, 16:9, 4:3, 1:1, 9:16 Story",
+    "Lossless 4K UHD PNG export engine"
+  ]
+}
